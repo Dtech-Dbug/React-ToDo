@@ -1,5 +1,6 @@
 import React , {useState} from 'react';
 import list from '../Images/list.jpg'
+import ListImage from '../Images/ListImage.png'
 
 export const Todo = ()=> {
     const [input , setInput] = useState('')
@@ -8,16 +9,32 @@ export const Todo = ()=> {
 
     const addItem = (e)=>{
 
-        if(!input){
+         if(!input){
 
         }
-       
+          else{
+                setItems ([...items ,input])
+               setInput('')
+           
+             }
+    }
 
-     else{
-        setItems ([...items ,input])
-        setInput('')
-        
-     }
+    const deleteItem = (id) => {
+        console.log(id)
+        const updatedItem = items.filter((item , index)=> {
+       return id !== index;
+        })
+
+        setItems(updatedItem)
+    }
+
+    const doneTask =() => {
+        const taskName = document.querySelector('h3')
+        taskName.style.textDecoration='line-through'
+    }
+
+    const removeAll = ()=> {
+        setItems([])
     }
 
 
@@ -27,12 +44,14 @@ export const Todo = ()=> {
             
             <div className='child-div' >
                 <figure>
-                  <img src={list}>
+                  <img src={ListImage}>
                   </img>
                 </figure>
 
                    <figcaption>
-                     Start making your todo
+                     <h3 style={{color:'white'}}>
+                     Start owning your todo's! 💯
+                     </h3>
                   </figcaption>
 
             </div>
@@ -41,7 +60,7 @@ export const Todo = ()=> {
                 <input type='text' placeholder='✍' value={input}
                 onChange={(e) => setInput(e.target.value)} 
                 />
-                <button onClick={addItem}>Add</button>
+                <i class="fa fa-plus" title='add' onClick={addItem}></i>
 
             </div>
        
@@ -49,10 +68,17 @@ export const Todo = ()=> {
                 {
                     items.map((item , index)=>{
                            return (
-                               <div className='itemList' key={index}>
+                               <div className='itemList' key={index} >
                                    <h3>
-                                   {item}
+                                   {index+1}. {item}
+                                   
                                    </h3>
+
+                                  
+
+                                   <i class="fa fa-trash"
+                                   onClick={()=> deleteItem(index)}
+                                   ></i>
 
                                </div>
                            )
@@ -61,7 +87,11 @@ export const Todo = ()=> {
 
             </div>
        
-       
+            <div className='removeAll-btn'>
+            <i class="fa fa-trash" title='Delete All'></i>
+            </div>
+
+
         </div>
     )
 }
