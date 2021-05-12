@@ -1,11 +1,37 @@
-import React , {useState} from 'react';
+import React , {useState , useEffect} from 'react';
 import list from '../Images/list.jpg'
 import ListImage from '../Images/ListImage.png'
+import ls from 'local-storage'
 
 export const Todo = ()=> {
+    
+
+
     const [input , setInput] = useState('')
 
     const [items , setItems] = useState([])
+
+        useEffect(()=>{
+            const localData = ls.get('itemsList')
+            return localData ? setItems(localData) : []
+        }, [])
+       
+
+        useEffect(()=>{
+            ls.set('itemsList' , items)
+        } ,[items])
+
+      
+
+            
+           
+        
+           
+           
+        
+   
+
+    
 
     const addItem = (e)=>{
 
@@ -15,6 +41,8 @@ export const Todo = ()=> {
           else{
                 setItems ([...items ,input])
                setInput('')
+               ls.set('itemsList' ,[...items , input])
+               
            
              }
     }
@@ -26,6 +54,7 @@ export const Todo = ()=> {
         })
 
         setItems(updatedItem)
+        ls.set('itemsList' , items)
     }
 
     const doneTask =() => {
@@ -35,12 +64,17 @@ export const Todo = ()=> {
 
     const removeAll = ()=> {
         setItems([])
+        ls.clear();
     }
 
 
 
     return (
         <div className='parentDiv'>
+
+            <div>
+                
+            </div>
             
             <div className='child-div' >
                 <figure>
@@ -53,6 +87,8 @@ export const Todo = ()=> {
                      Start owning your todo's! 💯
                      </h3>
                   </figcaption>
+
+                  
 
             </div>
             
@@ -88,7 +124,7 @@ export const Todo = ()=> {
             </div>
        
             <div className='removeAll-btn'>
-            <i class="fa fa-trash" title='Delete All'></i>
+            <i class="fa fa-trash" title='Delete All' onClick={removeAll}></i>
             </div>
 
 
