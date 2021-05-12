@@ -72,9 +72,6 @@ export const Todo = ()=> {
     return (
         <div className='parentDiv'>
 
-            <div>
-                
-            </div>
             
             <div className='child-div' >
                 <figure>
